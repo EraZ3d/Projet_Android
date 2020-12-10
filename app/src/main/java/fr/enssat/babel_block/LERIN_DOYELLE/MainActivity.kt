@@ -21,18 +21,18 @@ import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
+
     private val RecordAudioRequestCode = 1
 
+    // Instantiation des handlers
     lateinit var speechToText: SpeechToTextTool
     lateinit var translator : TranslationTool
     lateinit var speaker: TextToSpeechTool
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        setContentView(R.layout.main_activity) // Mise en place du layout
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             checkPermission()
@@ -40,15 +40,21 @@ class MainActivity : AppCompatActivity() {
 
         val service = BlockService(this)
 
+
+        // Instanciation des handlers
         speechToText = service.speechToText()
         translator = service.translator(Locale.FRENCH, Locale.ENGLISH)
         speaker = service.textToSpeech()
 
-
+        // Récupération des bouttons et des champs textuels du layout
         val recording = findViewById<Button>(R.id.record_button)
         val text_to_translate = findViewById<TextView>(R.id.word)
         val translated_text = findViewById<TextView>(R.id.translation)
+        val translate = findViewById<Button>(R.id.translate_button)
+        val ecoute = findViewById<Button>(R.id.listen_button)
 
+
+        // Mise en place des action à éffectuer à l'appui sur le bouton "Recording" grâce à un listener
         recording.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 Log.d("Reco UI", "Button pressed")
@@ -65,18 +71,17 @@ class MainActivity : AppCompatActivity() {
             false
         }
 
-        val translate = findViewById<Button>(R.id.translate_button)
 
+        // Mise en place des action à éffectuer à l'appui sur le bouton "Translate" grâce à un listener
         translate.setOnClickListener {
             translator.translate(text_to_translate.text.toString()) { enText ->
                 translated_text.text = enText
             }
         }
 
-        val ecoute = findViewById<Button>(R.id.listen_button)
 
+        // Mise en place des action à éffectuer à l'appui sur le bouton "Listening" grâce à un listener
         ecoute.setOnClickListener {
-            //translated_text.text = "test"
             val text = translated_text.text.toString()
             speaker.speak(text)
         }
