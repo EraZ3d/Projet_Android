@@ -74,3 +74,5 @@ class SpeechRecognizerHandler(context: Context, locale: Locale): SpeechToTextToo
         this.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.get(0)
 
 }
+
+

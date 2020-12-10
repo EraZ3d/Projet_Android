@@ -1,10 +1,14 @@
 package fr.enssat.babel_block.LERIN_DOYELLE
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var speechToText: SpeechToTextTool
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
@@ -31,13 +36,17 @@ class MainActivity : AppCompatActivity() {
         val service = BlockService(this)
         speechToText = service.speechToText()
 
-        record_button.setOnTouchListener { v, event ->
+
+
+        val recording = findViewById<Button>(R.id.record_button)
+        val textetotranslate = findViewById<TextView>(R.id.word)
+        recording.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 Log.d("Reco UI", "Button pressed")
                 v.performClick()
                 speechToText.start(object : SpeechToTextTool.Listener {
                     override fun onResult(text: String, isFinal: Boolean) {
-                        if (isFinal) { word.text = text}
+                        if (isFinal) { textetotranslate.text = text}
                     }
                 })
             } else if (event.action == MotionEvent.ACTION_UP) {
