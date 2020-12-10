@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         translator = service.translator(Locale.FRENCH, Locale.ENGLISH)
         speaker = service.textToSpeech()
 
-        // Récupération des bouttons et des champs textuels du layout
+        // Récupération des boutons et des champs textuels du layout
         val recording = findViewById<Button>(R.id.record_button)
         val text_to_translate = findViewById<TextView>(R.id.word)
         val translated_text = findViewById<TextView>(R.id.translation)
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         val ecoute = findViewById<Button>(R.id.listen_button)
 
 
-        // Mise en place des action à éffectuer à l'appui sur le bouton "Recording" grâce à un listener
+        // Mise en place des actions à effectuer à l'appui sur le bouton "Recording" grâce à un listener
         recording.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 Log.d("Reco UI", "Button pressed")
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // Mise en place des action à éffectuer à l'appui sur le bouton "Translate" grâce à un listener
+        // Mise en place des actions à effectuer à l'appui sur le bouton "Translate" grâce à un listener
         translate.setOnClickListener {
             translator.translate(text_to_translate.text.toString()) { enText ->
                 translated_text.text = enText
@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        // Mise en place des action à éffectuer à l'appui sur le bouton "Listening" grâce à un listener
+        // Mise en place des actions à effectuer à l'appui sur le bouton "Listening" grâce à un listener
         ecoute.setOnClickListener {
             val text = translated_text.text.toString()
             speaker.speak(text)
