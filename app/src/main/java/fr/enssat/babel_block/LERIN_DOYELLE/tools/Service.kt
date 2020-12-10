@@ -1,9 +1,9 @@
 package fr.enssat.babel_block.LERIN_DOYELLE.tools
 
 import android.content.Context
-import fr.enssat.babel_block.LERIN_DOYELLE.tools.impl.SpeechRecognizerHandler
 import fr.enssat.babel_block.LERIN_DOYELLE.tools.impl.TextToSpeechHandler
 import fr.enssat.babel_block.LERIN_DOYELLE.tools.impl.TranslatorHandler
+import fr.enssat.babelblock.LERIN_DOYELLE.tools.impl.SpeechRecognizerHandler
 import java.util.Locale
 
 interface TextToSpeechTool {

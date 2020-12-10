@@ -1,24 +1,30 @@
 package fr.enssat.babel_block.LERIN_DOYELLE
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import fr.enssat.babel_block.LERIN_DOYELLE.tools.BlockService
 import fr.enssat.babel_block.LERIN_DOYELLE.tools.SpeechToTextTool
-
+import fr.enssat.babel_block.LERIN_DOYELLE.tools.TranslationTool
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
     private val RecordAudioRequestCode = 1
 
     lateinit var speechToText: SpeechToTextTool
+    lateinit var translator : TranslationTool
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
@@ -27,17 +33,23 @@ class MainActivity : AppCompatActivity() {
             checkPermission()
         }
 
-
         val service = BlockService(this)
-        speechToText = service.speechToText()
 
-        record_button.setOnTouchListener { v, event ->
+        speechToText = service.speechToText()
+        translator = service.translator(Locale.FRENCH, Locale.ENGLISH)
+
+
+        val recording = findViewById<Button>(R.id.record_button)
+        val text_to_translate = findViewById<TextView>(R.id.word)
+        val translated_text = findViewById<TextView>(R.id.translation)
+
+        recording.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 Log.d("Reco UI", "Button pressed")
                 v.performClick()
                 speechToText.start(object : SpeechToTextTool.Listener {
                     override fun onResult(text: String, isFinal: Boolean) {
-                        if (isFinal) { word.text = text}
+                        if (isFinal) { text_to_translate.text = text}
                     }
                 })
             } else if (event.action == MotionEvent.ACTION_UP) {
@@ -46,9 +58,21 @@ class MainActivity : AppCompatActivity() {
             }
             false
         }
+
+        val translate = findViewById<Button>(R.id.translate_button)
+
+        translate.setOnClickListener {
+            translator.translate(text_to_translate.text.toString()) { enText ->
+                translated_text.text = enText
+            }
+        }
+
+
+
     }
 
     override fun onDestroy() {
+        translator.close()
         speechToText.close()
         super.onDestroy()
     }
