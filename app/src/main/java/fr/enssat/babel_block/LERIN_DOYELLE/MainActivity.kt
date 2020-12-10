@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         val ecoute = findViewById<Button>(R.id.listen_button)
 
         ecoute.setOnClickListener {
-            translated_text.text = "test"
+            //translated_text.text = "test"
             val text = translated_text.text.toString()
             speaker.speak(text)
         }

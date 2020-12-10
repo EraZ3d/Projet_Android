@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="buttons">#138818</color>
+    <color name="notif_bar">#3A9D23</color>
 </resources>
