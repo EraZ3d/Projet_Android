@@ -1,4 +1,4 @@
-package fr.enssat.projet_android
+package fr.enssat.babel_block
 
 import org.junit.Test
 
