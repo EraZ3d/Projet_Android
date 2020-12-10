@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import fr.enssat.babel_block.LERIN_DOYELLE.tools.BlockService
 import fr.enssat.babel_block.LERIN_DOYELLE.tools.SpeechToTextTool
+import fr.enssat.babel_block.LERIN_DOYELLE.tools.TextToSpeechTool
 import fr.enssat.babel_block.LERIN_DOYELLE.tools.TranslationTool
 import java.util.*
 
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var speechToText: SpeechToTextTool
     lateinit var translator : TranslationTool
+    lateinit var speaker: TextToSpeechTool
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         speechToText = service.speechToText()
         translator = service.translator(Locale.FRENCH, Locale.ENGLISH)
+        speaker = service.textToSpeech()
 
 
         val recording = findViewById<Button>(R.id.record_button)
@@ -67,6 +70,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val ecoute = findViewById<Button>(R.id.listen_button)
+
+        ecoute.setOnClickListener {
+            translated_text.text = "test"
+            val text = translated_text.text.toString()
+            speaker.speak(text)
+        }
 
 
     }
